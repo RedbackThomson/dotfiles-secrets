@@ -4,10 +4,10 @@ Encrypted secrets for RedbackThomson's dotfiles using ragenix (age-based encrypt
 
 ## Setup
 
-1. **Generate an age key** (if you don't have one):
+1. **Generate an age public key** (if you don't have one):
    ```bash
-   # Using ssh-to-age (recommended if you have SSH keys)
-   nix shell nixpkgs#ssh-to-age -c sh -c 'echo "ssh-ed25519 AAAA..." | ssh-to-age'
+   # Using ssh-to-age (recommended for new NixOS hosts)
+   nix --extra-experimental-features nix-command --extra-experimental-features flakes shell nixpkgs#ssh-to-age -c sh -c 'ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub'
 
    # Or generate a new age key
    nix shell nixpkgs#age -c age-keygen -o ~/.config/age/key.txt
@@ -24,12 +24,15 @@ Encrypted secrets for RedbackThomson's dotfiles using ragenix (age-based encrypt
 
 ### Creating/Editing Secrets
 
+Using the `ragenix` CLI, you can create and edit secrets. Specify the identity
+file to use for decryption with the `-i` flag.
+
 ```bash
 # Edit a secret (creates if doesn't exist)
-ragenix edit secrets/my-secret.age
+ragenix --edit secrets/my-secret.age -i .keys/key
 
 # Re-key all secrets (after updating secrets.nix)
-ragenix rekey
+ragenix --rekey -i .keys/key
 ```
 
 ### Using Secrets in NixOS
