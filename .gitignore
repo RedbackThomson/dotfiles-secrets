@@ -1,0 +1,19 @@
+# Ragenix/age secrets - only commit .age files, not decrypted versions
+secrets/*.txt
+secrets/*.key
+secrets/*.pem
+secrets/*.json
+secrets/*.yaml
+secrets/*.yml
+secrets/*.env
+
+# But DO commit the encrypted .age files
+!secrets/*.age
+
+# Flake outputs
+result
+result-*
+
+# direnv
+.direnv/
+.envrc
