@@ -1,14 +1,8 @@
-# Ragenix/age secrets - only commit .age files, not decrypted versions
-secrets/*.txt
-secrets/*.key
-secrets/*.pem
-secrets/*.json
-secrets/*.yaml
-secrets/*.yml
-secrets/*.env
-
-# But DO commit the encrypted .age files
-!secrets/*.age
+# Deny by default under secrets/ so a plaintext file staged while assembling a
+# secret can never be committed, whatever its name or nesting depth.
+secrets/**
+!secrets/**/
+!secrets/**/*.age
 
 # Flake outputs
 result
