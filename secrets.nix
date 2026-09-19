@@ -5,6 +5,7 @@ let
   # Host keys are the SSH host key converted to age. On the host:
   #   nix shell nixpkgs#ssh-to-age -c sh -c 'ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub'
   homelab-0-k3s-0 = "age1jusjv76tclv5kmy38rcnjtpuant4nsas3lkagxq8arr8fy440qqsanps67";
+  homelab-0-k3s-1 = "age1mzxqhvz8l83wpg82vxq38w28vzur3rpt07fvqwhghr3x89j004pq9zq7wx";
   homelab-0-devbox = "age1newvjan5yx5y7np4ww8wtq95xa320qtrvu87uvul0lz5y05lmaqqn9u9mv";
   homelab-0-home-assistant = "age15s0rzpuay6hc05feudk4vn8jglqudskzsmvh7xwgh689yy5n298q3dumlx";
   homelab-0-ollama = "age1e2ae8ejdev7e8g6p8g05k7uvteadtf2kksn58hh90jf779nfc5gsq0njj5";
@@ -14,12 +15,14 @@ let
   # Each host reads only the secrets it needs; there is no shared "all hosts"
   # list, so a compromised host does not expose another host's credentials.
   k3s = [ homelab-0-k3s-0 backup ];
+  k3s-agent = [ homelab-0-k3s-1 backup ];
   devbox = [ homelab-0-devbox backup ];
   home-assistant = [ homelab-0-home-assistant backup ];
   ollama = [ homelab-0-ollama backup ];
 in
 {
   "secrets/k3s/token.age".publicKeys = k3s;
+  "secrets/k3s/agent-token.age".publicKeys = k3s-agent;
 
   "secrets/devbox/tailscale-authkey.age".publicKeys = devbox;
   "secrets/devbox/git-key.age".publicKeys = devbox;
